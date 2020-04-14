@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>URLer</h1>
+<i>by {{ name }}</i>
+
+{% for m in get_flashed_messages() %}
+    {{ m }}
+{% endfor %}
+
+<form action="short" method="post">
+
+    <label
+    <label for="url">URL
+        <input type="url" name="url" value="" required>
+    </label>
+
+    <br>
+
+    <label for="code">Code
+        <input type="code" name="code" value="" required>
+    </label>
+
+    <br>
+
+    <input type="submit" value="Shorten">
+
+</form>
+
+<form action="short" method="post" enctype="multipart/form-data">
+
+    <label
+    <label for="file">file
+        <input type="file" name="file" value="" required>
+    </label>
+
+    <br>
+
+    <label for="code">Code
+        <input type="code" name="code" value="" required>
+    </label>
+
+    <br>
+
+    <input type="submit" value="Shorten">
+
+</form>
+
+
+</body>
+</html>
