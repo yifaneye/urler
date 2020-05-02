@@ -1,12 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{%  extends 'base.html' %}
+
+{% block title %}urler{% endblock %}
+
+{% block main %}
 <h1>URLer</h1>
 <i>by {{ name }}</i>
 
@@ -52,6 +48,12 @@
 
 </form>
 
-
-</body>
-</html>
+{% if codes %}
+    <h2>History</h2>
+    <ul>
+    {% for c in codes %}
+        <li><a href= {{ c }}>{{ c }}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

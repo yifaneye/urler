@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 import json
 import os
 from werkzeug.utils import secure_filename
@@ -14,7 +14,7 @@ def home():
 
 @app.route('/urler')
 def urler():
-    return render_template('urler.html', name='Yifan Ai')
+    return render_template('urler.html', name='Yifan Ai', codes=session.keys())
 
 
 @app.route('/short', methods=['GET', 'POST'])
@@ -36,6 +36,7 @@ def short():
             urls[request.form['code']] = {'file': full_name}
         with open('urls.json', 'w') as uf:
             json.dump(urls, uf)
+            session[request.form['code']] = True
         return render_template('short.html', code=request.form['code'])
     else:
         return redirect(url_for('home'))
@@ -61,3 +62,8 @@ def go(code):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+
+@app.route('/api')
+def session_api():
+    return jsonify(list(session.keys()))
