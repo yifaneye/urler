@@ -12,7 +12,7 @@
         <h4 class="my-0 font-weight-normal text-center">Website</h4>
       </div>
       <div class="card-body">
-        <form action="short" method="post">
+        <form action="{{ url_for('short') }}" method="post">
           <label for="code">Short Name</label>
           <input type="text" class="form-control" name="code" id="code" value="" required>
           <br>
@@ -28,7 +28,7 @@
         <h4 class="my-0 font-weight-normal text-center">File</h4>
       </div>
       <div class="card-body">
-        <form action="short" method="post" enctype="multipart/form-data">
+        <form action="{{ url_for('short') }}" method="post" enctype="multipart/form-data">
           <label for="code">Short Name</label>
           <input type="text" class="form-control" name="code" id="code" value="" required>
           <br>

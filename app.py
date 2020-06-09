@@ -16,12 +16,12 @@ def home():
 def short():
     if request.method == 'POST':
         urls = {}
-        if os.path.exists('urls.json'):
-            with open('urls.json') as uf:
+        if os.path.exists('/tmp/urls.json'):
+            with open('/tmp/urls.json') as uf:
                 urls = json.load(uf)
         if request.form['code'] in urls.keys():
             flash('Code already taken')
-            return redirect(url_for('urler'))
+            return redirect(url_for('home'))
         if 'url' in request.form.keys():
             urls[request.form['code']] = {'url': request.form['url']}
         else:
@@ -29,12 +29,12 @@ def short():
             full_name = secure_filename(f.filename)
             f.save('static/media/' + full_name)
             urls[request.form['code']] = {'file': full_name}
-        with open('urls.json', 'w') as uf:
+        with open('/tmp/urls.json', 'w') as uf:
             json.dump(urls, uf)
             session[request.form['code']] = True
         return render_template('short.html', code=request.form['code'])
     else:
-        return redirect(url_for('urler'))
+        return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
@@ -43,8 +43,8 @@ if __name__ == '__main__':
 
 @app.route('/<string:code>')
 def go(code):
-    if os.path.exists('urls.json'):
-        with open('urls.json') as urls_file:
+    if os.path.exists('/tmp/urls.json'):
+        with open('/tmp/urls.json') as urls_file:
             urls = json.load(urls_file)
             if code in urls.keys():  # key
                 if 'url' in urls[code].keys():

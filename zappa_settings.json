@@ -1,0 +1,9 @@
+{
+    "dev": {
+        "app_function": "app.app",
+        "profile_name": "eb-cli",
+        "project_name": "urler",
+        "runtime": "python3.8",
+        "s3_bucket": "zappa-mnul3e1uv"
+    }
+}
