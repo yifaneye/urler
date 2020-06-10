@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, flash, abo
 import json
 import os
 from werkzeug.utils import secure_filename
+import boto3
 
 app = Flask(__name__)  # app
 app.secret_key = '8a96241c5f3a4360ae140ae4482fc76f'
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # 1MB
 
 
 @app.route('/')
@@ -27,7 +29,10 @@ def short():
         else:
             f = request.files['file']
             full_name = secure_filename(f.filename)
-            f.save('static/media/' + full_name)
+            location = '/tmp/' + full_name
+            f.save(location)
+            s3 = boto3.resource('s3')
+            s3.Bucket('urler').upload_file(location, full_name)
             urls[request.form['code']] = {'file': full_name}
         with open('/tmp/urls.json', 'w') as uf:
             json.dump(urls, uf)
@@ -50,7 +55,7 @@ def go(code):
                 if 'url' in urls[code].keys():
                     return redirect(urls[code]['url'])
                 elif 'file' in urls[code].keys():
-                    return redirect(url_for('static', filename='media/' + urls[code]['file']))
+                    return redirect('https://urler.s3-ap-southeast-2.amazonaws.com/' + urls[code]['file'])
     return abort(404)
 
 
