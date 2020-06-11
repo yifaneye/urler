@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, abort, session, jsonify
 import json
 import os
 from werkzeug.utils import secure_filename
@@ -6,7 +6,7 @@ import boto3
 
 app = Flask(__name__)  # app
 app.secret_key = '8a96241c5f3a4360ae140ae4482fc76f'
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # 1MB
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10MB
 
 
 @app.route('/')
@@ -22,8 +22,11 @@ def short():
             with open('/tmp/urls.json') as uf:
                 urls = json.load(uf)
         if request.form['code'] in urls.keys():
-            flash('Code already taken')
-            return redirect(url_for('home'))
+            message = 'Link already taken!'
+            if 'url' in request.form.keys():
+                return render_template('urler.html', url=request.form['url'], code=request.form['code'], message=message, codes=session.keys())
+            else:
+                return render_template('urler.html', code2=request.form['code'], message2=message, codes=session.keys())
         if 'url' in request.form.keys():
             urls[request.form['code']] = {'url': request.form['url']}
         else:

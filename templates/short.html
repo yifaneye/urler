@@ -4,22 +4,20 @@
 
 {% block main %}
 
-
-<div class="container text-center">
-  <h1 class="jumbotron-heading">URL Created</h1>
-  <input class="lead" id="new_url" value="{{ url_for('go', code=code, _external=True) }}" readonly>
-  <p>
-    <button onclick="myFunction()" class="btn btn-primary my-2">Copy URL</button>
-  </p>
-</div>
+    <div class="container d-flex flex-column align-items-center mb-3">
+        <h4 class="mb-4 text-success">URL Created!</h4>
+        <label for="new_url"></label>
+        <input class="form-control w-50 text-center mb-4" id="new_url" value="{{ url_for('go', code=code, _external=True) }}" readonly>
+        <button onclick="copyURL()" class="btn btn-success">Copy URL</button>
+    </div>
 
 
-<script>
-  function myFunction() {
-      let copyText = document.getElementById("new_url");
-      copyText.select();
-    document.execCommand("copy");
-  }
-</script>
+    <script>
+        function copyURL() {
+            let text = document.getElementById("new_url");
+            text.select();
+            document.execCommand("copy");
+        }
+    </script>
 
 {% endblock %}

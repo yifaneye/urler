@@ -1,56 +1,68 @@
 {% extends 'base.html' %}
 
-{% block title %}URL Shortener{% endblock %}
+{% block title %}URLer{% endblock %}
 
 {% block main %}
 
-
-<div class="container">
-  <div class="card-deck mb-3">
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal text-center">Website</h4>
-      </div>
-      <div class="card-body">
-        <form action="{{ url_for('short') }}" method="post">
-          <label for="code">Short Name</label>
-          <input type="text" class="form-control" name="code" id="code" value="" required>
-          <br>
-          <label for="url">Website URL</label>
-          <input type="url" class="form-control" name="url" id="url" value="" required>
-          <br>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">Shorten</button>
-        </form>
-      </div>
+    <div class="container mb-3">
+        <h4 class="mb-4">Create URL</h4>
+        <div class="card-deck">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal text-center">Website</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('short') }}" method="post">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <label for="url">Long Link</label>
+                            <small class="text-muted">(https://example.com/)</small>
+                        </div>
+                        <input type="url" class="form-control mb-4" name="url" id="url" value="{{ url }}" required>
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <label for="code">Custom Link</label>
+                            <small class="text-danger">{{ message }}</small>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://url.yifanai.com/</span>
+                            </div>
+                            <input type="text" class="form-control {% if message %}border-danger{% endif %}" name="code" id="code" value="{{ code }}" required>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal text-center">File</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('short') }}" method="post" enctype="multipart/form-data">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <label for="long_url">File</label>
+                            <small class="text-muted">(Maximum 10MB)</small>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="file" id="file" required>
+                                <label class="custom-file-label">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <label for="code">Custom Link</label>
+                            <small class="text-danger">{{ message2 }}</small>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://url.yifanai.com/</span>
+                            </div>
+                            <input type="text" class="form-control {% if message2 %}border-danger{% endif %}" name="code" id="code" value="{{ code2 }}" required>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal text-center">File</h4>
-      </div>
-      <div class="card-body">
-        <form action="{{ url_for('short') }}" method="post" enctype="multipart/form-data">
-          <label for="code">Short Name</label>
-          <input type="text" class="form-control" name="code" id="code" value="" required>
-          <br>
-          <label for="long_url">File URL</label>
-          <input type="file" class="form-control" name="file" id="file" required>
-          <br>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">Shorten</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  {% if codes %}
-  <h2>Codes you have created:</h2>
-  <ul>
-    {% for code in codes %}
-    <a href="{{ code }}">
-      <li>{{ code }}</li>
-    </a>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</div>
 
 {% endblock %}
