@@ -7,7 +7,7 @@
     <div class="container d-flex flex-column align-items-center mb-3">
         <h4 class="mb-4 text-success">URL Created!</h4>
         <label for="new_url"></label>
-        <input class="form-control w-50 text-center mb-4" id="new_url" value="{{ url_for('go', code=code, _external=True) }}" readonly>
+        <input class="form-control w-100 text-center mb-4" id="new_url" value="{{ url_for('go', code=code, _external=True) }}" readonly>
         <button onclick="copyURL()" class="btn btn-success">Copy URL</button>
     </div>
 
